@@ -1,31 +1,40 @@
-//
-//  CanlendarView.swift
-//  gridTest
-//
-//  Created by 宗桓 李 on 2016/9/26.
-//  Copyright © 2016年 squall. All rights reserved.
-//
-
 import UIKit
 
-class BaseCell: UICollectionViewCell {
+class BaseCell: UICollectionViewCell,DayViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
-    }
-    
-    func setupViews() {
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    var tapDay : DayView?
+    
+    func dayView(onTapDay:DayView)
+    {
+        if let TapDay = tapDay
+        {
+            if TapDay.CurrentDate != onTapDay.CurrentDate
+            {
+                TapDay.backgroundColor = UIColor.white
+            }
+            
+            
+        }
+        tapDay = onTapDay
+        
+        onTapDay.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        
     }
 }
 
 class CalendarView:BaseCell{
     
     var weekviewH:CGFloat = 0.0
+    var delegate : CalendarDelegate?
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,35 +51,51 @@ class CalendarView:BaseCell{
         {
             var weekViews = [UIView]()
             let lastDayOfMonth = DateHelper.getLastDayOfMonth(date: CurrentDate!)
-            
-           // let s1 = createSperatorLine()
 
             let firstDayOfMonth:Int = DateHelper.getDayOfMonth(date: CurrentDate!)
             var d = DateHelper.AddDay(currDate: DateHelper.getFirstDayOfMonth(date:CurrentDate!),day:(1-firstDayOfMonth))
             
             var i = 0
             
-            var ConstraintString:String = "V:|[v0(20)][v1(20)]"
+            var ConstraintString:String = "V:|[v0(20)][v1(20)][v2(1)]"
             while d <= lastDayOfMonth
             {
-                weekViews.append(createWeekLayout(weekProperties: WeekProperties(DayViewWidth: self.frame.width, firstDayOfWeek: d)))
-                d = DateHelper.AddDay(currDate:d,day:7)
-                
-                ConstraintString += "[v\(i+2)(height)]"
                 i += 1
+                d = DateHelper.AddDay(currDate:d,day:7)
             }
 
-            let calHeight = ((self.frame.height - 45) / CGFloat(i)) + 1
-            ConstraintString = "\(ConstraintString.replacingOccurrences(of: "height", with: String(describing: calHeight)))|"
+            let calHeight = (self.frame.height - CGFloat(41)) / CGFloat(i)
+            
+            d = DateHelper.AddDay(currDate: DateHelper.getFirstDayOfMonth(date:CurrentDate!),day:(1-firstDayOfMonth))
+            for j in 0..<i{
+                var weekView:UIView?
+                
+                if let weekDelegate = delegate
+                {
+                    weekView = createWeekLayout(weekProperties: WeekProperties(DayViewWidth: self.frame.width, currentDate: CurrentDate!,firstDayOfWeek:d),delegate:weekDelegate)
+                }
+                else{
+                    weekView = createWeekLayout(weekProperties: WeekProperties(DayViewWidth: self.frame.width, currentDate: CurrentDate!,firstDayOfWeek:d),delegate:nil)
+                }
+                weekViews.append(weekView!)
+                d = DateHelper.AddDay(currDate:d,day:7)
+                
+                ConstraintString += "[v\(j+3)(\(calHeight))]"
+
+            }
+            
+            ConstraintString = "\(ConstraintString)|"
             
             labelMonth.text = DateHelper.getStringWithDayFormat(fromDate: CurrentDate!, formate: "yyyy/MM")
+            let s1 = createSperatorLine()
+            
             addSubview(labelMonth)
             addSubview(weekTitleView)
-            //addSubview(s1)
+            addSubview(s1)
             
             addConstraintsWithFormat("H:|[v0]|", views: labelMonth)
             addConstraintsWithFormat("H:|[v0]|", views: weekTitleView)
-            //addConstraintsWithFormat("H:|[v0]|", views: s1)
+            addConstraintsWithFormat("H:|[v0]|", views: s1)
 
             for i in 0..<weekViews.count
             {
@@ -78,23 +103,14 @@ class CalendarView:BaseCell{
                 addConstraintsWithFormat("H:|[v0]|", views: weekViews[i])
             }
             
-            //weekViews.insert(s1, at: 0)
+            weekViews.insert(s1, at: 0)
             weekViews.insert(weekTitleView, at: 0)
             weekViews.insert(labelMonth, at: 0)
 
-            
             addConstraintsWithFormat(ConstraintString, views: weekViews)
-            
-            
-            
+
         }
     }
-    
-    lazy var speratorLine:UIView = {
-        let line = UIView()
-        line.backgroundColor = UIColor(white: 0.8, alpha: 1)
-        return line
-    }()
     
     lazy var weekTitleView: WeekTitleView = {
         let wTitleView = WeekTitleView()
@@ -113,24 +129,30 @@ class CalendarView:BaseCell{
         
     }()
     
-    func createWeekLayout(weekProperties:WeekProperties) ->UIView
+    func createWeekLayout(weekProperties:WeekProperties,delegate:CalendarDelegate?) ->UIView
     {
         let weekViewLayout = UIView()
         let weekView = WeekView()
         let sperator = createSperatorLine()
-        weekViewLayout.translatesAutoresizingMaskIntoConstraints = false
         
         weekViewLayout.addSubview(weekView)
         weekViewLayout.addSubview(sperator)
         
-        weekViewLayout.backgroundColor = UIColor.white
+        
         
         weekViewLayout.addConstraintsWithFormat("H:|[v0]|", views: weekView)
         weekViewLayout.addConstraintsWithFormat("H:|[v0]|", views: sperator)
         
-        weekViewLayout.addConstraintsWithFormat("V:|[v0][v1(1)]", views: weekView,sperator)
+        weekViewLayout.addConstraintsWithFormat("V:|[v0][v1(1)]|", views: weekView,sperator)
         
+        
+        if let weekDelegate = delegate{
+            weekView.delegate = weekDelegate
+        }
+
+        weekView.dayViewdelegate = self
         weekView.weekProperties = weekProperties
+        
         
         return weekViewLayout
     }

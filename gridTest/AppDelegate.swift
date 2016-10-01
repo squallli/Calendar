@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  gridTest
-//
-//  Created by 宗桓 李 on 2016/9/26.
-//  Copyright © 2016年 squall. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

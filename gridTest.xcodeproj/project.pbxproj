@@ -22,6 +22,7 @@
 		D569C9601D99138400EFB96E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569C95F1D99138400EFB96E /* CalendarView.swift */; };
 		D5AB139E1D9A1D380052778D /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AB139D1D9A1D380052778D /* DateHelper.swift */; };
 		D5AB13A01D9A46B20052778D /* CCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AB139F1D9A46B20052778D /* CCalendar.swift */; };
+		D5CBD14E1D9D5A3000875777 /* CalendarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CBD14D1D9D5A3000875777 /* CalendarDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		D569C95F1D99138400EFB96E /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		D5AB139D1D9A1D380052778D /* DateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		D5AB139F1D9A46B20052778D /* CCalendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCalendar.swift; sourceTree = "<group>"; };
+		D5CBD14D1D9D5A3000875777 /* CalendarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				D569C95F1D99138400EFB96E /* CalendarView.swift */,
 				D5AB139D1D9A1D380052778D /* DateHelper.swift */,
 				D5AB139F1D9A46B20052778D /* CCalendar.swift */,
+				D5CBD14D1D9D5A3000875777 /* CalendarDelegate.swift */,
 			);
 			name = CCanlendar;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				D5AB139E1D9A1D380052778D /* DateHelper.swift in Sources */,
 				D5525C481D98EBB90015D0F8 /* DayTitleView.swift in Sources */,
 				D569C9571D98F34500EFB96E /* Extensions.swift in Sources */,
+				D5CBD14E1D9D5A3000875777 /* CalendarDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

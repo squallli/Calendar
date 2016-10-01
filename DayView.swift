@@ -1,23 +1,9 @@
-//
-//  DayView.swift
-//  gridTest
-//
-//  Created by 宗桓 李 on 2016/9/26.
-//  Copyright © 2016年 squall. All rights reserved.
-//
-
 import UIKit
 
 class DayView:UIView{
-       var CurrentDate:Date!
     
-    init(frame: CGRect,currentDate:Date) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-    
-        backgroundColor = UIColor.white
-        CurrentDate = currentDate
-        
-        setupViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,20 +11,37 @@ class DayView:UIView{
     }
     
     lazy var dayView:UILabel =
-        {
+    {
             let labelTitle = UILabel()
             labelTitle.translatesAutoresizingMaskIntoConstraints = false
-            labelTitle.text = DateHelper.getStringWithDayFormat(fromDate: self.CurrentDate, formate: "dd")
+            labelTitle.text = DateHelper.getStringWithDayFormat(fromDate: self.CurrentDate!, formate: "dd")
             labelTitle.textAlignment = .center
-            labelTitle.font = UIFont(name: "HelveticaNeue", size: 12)
+            labelTitle.backgroundColor = UIColor.white
+            labelTitle.font = UIFont.boldSystemFont(ofSize: 12)
             return labelTitle
     }()
     
+    var CurrentDate:Date?{
+        didSet{
+            setupViews()
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+            
+            self.backgroundColor = UIColor.white
+        }
+    }
+    
+    
+    
     func setupViews()
     {
+        
+        
         self.addSubview(dayView)
         
         self.addConstraintsWithFormat("V:|[v0(12)]", views: dayView)
         self.addConstraintsWithFormat("H:|[v0]|", views: dayView)
     }
+    
+    
 }

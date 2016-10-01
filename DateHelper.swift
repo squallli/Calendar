@@ -1,11 +1,3 @@
-//
-//  DateHelper.swift
-//  gridTest
-//
-//  Created by 宗桓 李 on 2016/9/27.
-//  Copyright © 2016年 squall. All rights reserved.
-//
-
 import UIKit
 
 class DateHelper
@@ -39,7 +31,6 @@ class DateHelper
         formatter.dateFormat = formate
         
         return formatter.string(from: fromDate)
-        
     }
     
     static func getDateWithStringFormat(DateString:String,formate:String)->Date {
@@ -49,12 +40,10 @@ class DateHelper
         formatter.timeZone = TimeZone(abbreviation: "UTC")
         
         return formatter.date(from:DateString)!
-        
     }
     
     static func AddDay(currDate:Date,day:Int) -> Date
     {
-        
         let cal = NSCalendar(calendarIdentifier: NSCalendar.Identifier(rawValue: NSCalendar.Identifier.gregorian.rawValue))
         let nextNDays = cal?.date(byAdding: NSCalendar.Unit.day, value: day, to: currDate, options: NSCalendar.Options(rawValue: 0))
         
@@ -63,7 +52,6 @@ class DateHelper
     
     static func AddMonth(currDate:Date,month:Int) -> Date
     {
-        
         let cal = NSCalendar(calendarIdentifier: NSCalendar.Identifier(rawValue: NSCalendar.Identifier.gregorian.rawValue))
         let nextMnoths = cal?.date(byAdding: NSCalendar.Unit.month, value: month, to: currDate, options: NSCalendar.Options(rawValue: 0))
         
